@@ -72,8 +72,6 @@ Native Installation
 
 To deploy this to an Open edX instance, include it in the ``EDXAPP_PRIVATE_REQUIREMENTS`` or ``EDXAPP_EXTRA_REQUIREMENTS`` variables.
 
-Include the required configuration settings in the ``EDXAPP_LMS_ENV_EXTRA`` variable.
-
 Tutor Installation
 ------------------
 
