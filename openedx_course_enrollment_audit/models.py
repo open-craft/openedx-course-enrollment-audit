@@ -71,7 +71,8 @@ class CourseEnrollmentAudit(models.Model):
                 parsed_role = parsed_data.get('role')
                 parsed_reason = parsed_data.get('reason')
             except JSONDecodeError:
-                pass  # If JSON is invalid or missing keys, fields remain None
+                # If the reason field is not a valid JSON, store it as is.
+                parsed_reason = manual_enrollment.reason
 
         return cls.objects.update_or_create(
             enrolled_email=manual_enrollment.enrolled_email,

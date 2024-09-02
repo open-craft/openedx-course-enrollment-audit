@@ -12,14 +12,11 @@ class Command(BaseCommand):
         total_count = ManualEnrollmentAudit.objects.count()
         self.stdout.write(self.style.NOTICE(f'Starting backfill of {total_count} records from ManualEnrollmentAudit.'))
 
-        for manual_enrollment in ManualEnrollmentAudit.objects.all().iterator():
-            course_enrollment_audit, created = CourseEnrollmentAudit.create_from_manual_enrollment(manual_enrollment)
+        batch_size = 10000
+        for i, manual_enrollment in enumerate(ManualEnrollmentAudit.objects.all().iterator(), 1):
+            CourseEnrollmentAudit.create_from_manual_enrollment(manual_enrollment)
 
-            if created:
-                self.stdout.write(self.style.SUCCESS(
-                    f'Created new CourseEnrollmentAudit for email: {manual_enrollment.enrolled_email}, course_id: {course_enrollment_audit.course_id}.'))
-            else:
-                self.stdout.write(self.style.WARNING(
-                    f'Updated existing CourseEnrollmentAudit for email: {manual_enrollment.enrolled_email}, course_id: {course_enrollment_audit.course_id}.'))
+            if i % batch_size == 0:
+                self.stdout.write(self.style.SUCCESS(f'Processed {i} records...'))
 
         self.stdout.write(self.style.SUCCESS('Backfill completed successfully.'))
