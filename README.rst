@@ -93,9 +93,11 @@ Tutor Installation
 
 To `install`_ this in the Open edX build, include it in the ``config.yml`` file using the ``OPENEDX_EXTRA_PIP_REQUIREMENTS`` variable.
 
-You need to rebuild the Open edX image::
+You need to rebuild the Open edX image:
 
-    tutor images build openedx
+.. code-block:: bash
+
+  tutor images build openedx
 
 
 .. _install: https://docs.tutor.overhang.io/configuration.html?highlight=xblock#installing-extra-xblocks-and-requirements

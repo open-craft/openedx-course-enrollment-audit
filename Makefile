@@ -51,6 +51,7 @@ test_integration: ## run integration tests inside the LMS
 	PATH_TO_PLATFORM=$$( [ -d "../../app/edxapp/edx-platform/" ] && echo "../../app/edxapp/edx-platform/" || echo "../../edx-platform/" ) && \
 	cd $$PATH_TO_PLATFORM && pytest -c $(CURDIR)/pyproject.toml --cov-config=$(CURDIR)/pyproject.toml
 
+test_migrations: export DJANGO_SETTINGS_MODULE=lms.envs.test
 test_migrations: ## check that Django migrations reflect all model changes
 	PATH_TO_PLATFORM=$$( [ -d "../../app/edxapp/edx-platform/" ] && echo "../../app/edxapp/edx-platform/" || echo "../../edx-platform/" ) && \
 	cd $$PATH_TO_PLATFORM && ./manage.py lms makemigrations openedx_course_enrollment_audit --check --verbosity 3
