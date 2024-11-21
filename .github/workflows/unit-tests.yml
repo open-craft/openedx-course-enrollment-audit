@@ -1,4 +1,4 @@
-name: Python CI
+name: Unit Tests
 
 on:
   push:
@@ -6,7 +6,6 @@ on:
   pull_request:
     branches:
     - '**'
-
 
 jobs:
   run_tests:
@@ -16,7 +15,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         python-version: ['3.8']
-        toxenv: [quality, pii_check, django32, django40, maple, nutmeg, olive, latest]
+        toxenv: [makefile, pii_check, package]
 
     steps:
     - uses: actions/checkout@v3
@@ -35,11 +34,3 @@ jobs:
       env:
         TOXENV: ${{ matrix.toxenv }}
       run: tox
-
-    - name: Run coverage
-      if: matrix.python-version == '3.8' && matrix.toxenv == 'django32'
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        flags: unittests
-        fail_ci_if_error: true

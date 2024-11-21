@@ -17,10 +17,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('enrolled_email', models.CharField(db_index=True, max_length=255)),
-                ('time_stamp', models.DateTimeField(auto_now_add=True, null=True)),
+                ('time_stamp', models.DateTimeField(null=True)),
                 ('state_transition', models.CharField(max_length=255)),
-                ('org', models.CharField(blank=True, max_length=255, null=True)),
-                ('course_id', models.CharField(blank=True, max_length=255, null=True)),
+                ('org', models.CharField(blank=True, db_index=True, max_length=255, null=True)),
+                ('course_id', models.CharField(blank=True, db_index=True, max_length=255, null=True)),
                 ('role', models.CharField(blank=True, max_length=64, null=True)),
                 ('reason', models.TextField(blank=True, null=True)),
                 ('user_id', models.IntegerField(blank=True, null=True)),

@@ -1,42 +1,50 @@
+"""Tests for the CourseEnrollmentAudit model."""
+
+from typing import Callable
+
+import factory
 import pytest
 from common.djangoapps.student.models import (
-    CourseEnrollment,
     ENROLLED_TO_UNENROLLED,
-    ManualEnrollmentAudit,
     UNENROLLED_TO_ENROLLED,
+    CourseEnrollment,
+    ManualEnrollmentAudit,
 )
 from common.djangoapps.student.tests.factories import UserFactory
+from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from opaque_keys.edx.keys import CourseKey
 
 from openedx_course_enrollment_audit.models import CourseEnrollmentAudit
-from .utils import disconnect_all_signals
 
 
 @pytest.fixture
-def user():
+def user() -> User:
     """Create a user for testing."""
     return UserFactory.create()
 
 
 @pytest.fixture
-def enrollment(user):
+@factory.django.mute_signals(post_save)
+def enrollment(user: User) -> CourseEnrollment:
     """Create a course enrollment for testing."""
-    with disconnect_all_signals(post_save):
-        enrollment = CourseEnrollment.objects.create(
-            user=user,
-            course_id=CourseKey.from_string("course-v1:edX+DemoX+Demo_Course"),
-        )
-    return enrollment
+    return CourseEnrollment.objects.create(
+        user=user,
+        course_id=CourseKey.from_string("course-v1:edX+DemoX+Demo_Course"),
+    )
 
 
 @pytest.fixture
-def create_manual_enrollment_audit(enrollment):
+def create_manual_enrollment_audit(enrollment) -> Callable[..., ManualEnrollmentAudit]:
     """Create a manual enrollment audit for the specified enrollment."""
 
     def _create_manual_enrollment_audit(
-        enrolled_email=None, state_transition=UNENROLLED_TO_ENROLLED, role=None, reason=None, enrolled_by=None
-    ):
+        enrolled_email=None,
+        state_transition=UNENROLLED_TO_ENROLLED,
+        role=None,
+        reason=None,
+        enrolled_by=None,
+    ) -> ManualEnrollmentAudit:
         return ManualEnrollmentAudit.objects.create(
             enrollment=enrollment,
             enrolled_email=enrolled_email or enrollment.user.email,
@@ -52,7 +60,6 @@ def create_manual_enrollment_audit(enrollment):
 @pytest.mark.django_db
 def test_create_from_manual_enrollment(user, enrollment, create_manual_enrollment_audit):
     """Test the creation of a new CourseEnrollmentAudit instance."""
-
     staff_user = UserFactory.create()
 
     assert CourseEnrollmentAudit.objects.count() == 0
@@ -78,7 +85,6 @@ def test_create_from_manual_enrollment(user, enrollment, create_manual_enrollmen
 @pytest.mark.django_db
 def test_parse_reason(user, enrollment, create_manual_enrollment_audit):
     """Test parsing of the reason field with valid JSON."""
-
     reason = '{"org": "edX", "course_id": "test_course", "role": "learner", "reason": "manual"}'
     create_manual_enrollment_audit(role="student", reason=reason)
 
@@ -93,7 +99,6 @@ def test_parse_reason(user, enrollment, create_manual_enrollment_audit):
 @pytest.mark.django_db
 def test_parse_reason_invalid_json(user, enrollment, create_manual_enrollment_audit):
     """Test parsing of the reason field with invalid JSON."""
-
     create_manual_enrollment_audit(reason="invalid json")
 
     course_enrollment_audit = CourseEnrollmentAudit.objects.first()
@@ -103,7 +108,6 @@ def test_parse_reason_invalid_json(user, enrollment, create_manual_enrollment_au
 @pytest.mark.django_db
 def test_update_existing_course_enrollment_audit(user, enrollment, create_manual_enrollment_audit):
     """Test updating an existing CourseEnrollmentAudit instance."""
-
     create_manual_enrollment_audit()
 
     course_enrollment_audit = CourseEnrollmentAudit.objects.first()
@@ -120,7 +124,6 @@ def test_update_existing_course_enrollment_audit(user, enrollment, create_manual
 @pytest.mark.django_db
 def test_create_without_enrollment(user):
     """Test creating a CourseEnrollmentAudit without an associated CourseEnrollment."""
-
     ManualEnrollmentAudit.objects.create(
         enrolled_email=user.email,
         state_transition=UNENROLLED_TO_ENROLLED,

@@ -7,9 +7,9 @@ openedx-course-enrollment-audit
 Purpose
 *******
 
-The purpose of this plugin is to optimize the tracking and auditing of manual enrollments in Open edX courses by:
+This plugin optimizes the tracking and auditing of manual enrollments in Open edX courses by:
 
-1. Parsing and storing JSON data from the ``reason`` field in the ``ManualEnrollment`` model.
+1. Parsing and storing JSON data from the ``reason`` field of the ``ManualEnrollment`` model.
 2. Ensuring that each ``enrolled_email`` and ``course_id`` pair is unique.
 
 Getting Started
@@ -18,9 +18,9 @@ Getting Started
 Developing
 ==========
 
-One Time Setup
+One-Time Setup
 --------------
-.. code-block::
+.. code-block:: bash
 
   # Clone the repository
   git clone git@github.com:open-craft/openedx-course-enrollment-audit.git
@@ -28,6 +28,22 @@ One Time Setup
 
   # Set up a virtualenv using virtualenvwrapper with the same name as the repo and activate it
   mkvirtualenv -p python3.8 openedx-course-enrollment-audit
+
+Tutor Installation
+------------------
+
+To install this plugin using Tutor:
+
+.. code-block:: bash
+
+  # Mount the directory in Tutor
+  tutor mounts add openedx:/local/projects/shared-src:/openedx/shared-src
+
+  # Install the package
+  tutor dev exec lms pip install -e /openedx/shared-src/openedx-course-enrollment-audit
+
+  # Run migrations
+  tutor dev exec lms ./manage.py lms migrate openedx_course_enrollment_audit
 
 Every time you develop something in this repo
 ---------------------------------------------
@@ -52,11 +68,11 @@ Every time you develop something in this repo
   # Using your favorite editor, edit the code to make your change.
   vim ...
 
-  # Run your new tests
-  pytest ./path/to/new/tests
+  # Run static analysis and packaging tests
+  make test
 
-  # Run all the tests and quality checks
-  make validate
+  # Run integration tests within Tutor
+  tutor dev exec lms -- bash -c "cd /openedx/shared-src/openedx-course-enrollment-audit && make test_integration"
 
   # Commit all your changes
   git commit ...
@@ -88,6 +104,23 @@ You need to rebuild the Open edX image::
 Documentation
 *************
 
+Usage
+=====
+
+You can inspect the records by importing the ``CourseEnrollmentAudit`` model in your Django shell:
+
+.. code-block:: python
+
+  from openedx_course_enrollment_audit.models import CourseEnrollmentAudit
+  CourseEnrollmentAudit.objects.all()
+
+Alternatively, you can access them directly from the database shell:
+
+.. code-block:: sql
+
+  ./manage.py lms dbshell
+  SELECT * FROM openedx_course_enrollment_audit_courseenrollmentaudit;
+
 Backfilling Existing Data
 =========================
 
@@ -95,10 +128,9 @@ To backfill existing data from ``ManualEnrollmentAudit`` into ``CourseEnrollment
 
 .. code-block:: bash
 
-   python manage.py backfill_course_enrollment_audit
+  python manage.py lms backfill_course_enrollment_audit
 
-This command will ensure that all existing manual enrollments are tracked and audited according to the plugin's logic.
-
+This command ensures that all existing manual enrollments are tracked and audited according to the plugin's logic.
 
 Getting Help
 ============

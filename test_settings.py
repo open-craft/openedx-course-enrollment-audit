@@ -6,10 +6,10 @@ Django applications, so these settings will not be used.
 """
 
 INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'openedx_course_enrollment_audit',
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "openedx_course_enrollment_audit",
 )
 
-TESTING = True
+TEST_OPENEDX_COURSE_ENROLLMENT_AUDIT = True
 USE_TZ = True
