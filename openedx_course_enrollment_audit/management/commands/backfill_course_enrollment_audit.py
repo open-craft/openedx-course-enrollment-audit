@@ -16,7 +16,7 @@ class Command(BaseCommand):
         for i, manual_enrollment in enumerate(ManualEnrollmentAudit.objects.all().iterator(), 1):
             CourseEnrollmentAudit.create_from_manual_enrollment(manual_enrollment)
 
-            if i % batch_size == 0:
+            if i % batch_size == 0:  # pragma: no cover
                 self.stdout.write(self.style.SUCCESS(f'Processed {i} records...'))
 
         self.stdout.write(self.style.SUCCESS('Backfill completed successfully.'))

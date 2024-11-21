@@ -59,6 +59,10 @@ requirements: piptools ## install development environment requirements
 test: clean ## run tests in the current virtualenv
 	pytest
 
+test_integration: export DJANGO_SETTINGS_MODULE=lms.envs.test
+test_integration:
+	cd ../../app/edxapp/edx-platform/ && pytest --pyargs tests_openedx_course_enrollment_audit --cov openedx_course_enrollment_audit --cov-config=$(CURDIR)/.coveragerc --cov-report term-missing --cov-report=xml:$(CURDIR)/coverage.xml
+
 diff_cover: test ## find diff lines that need test coverage
 	diff-cover coverage.xml
 
