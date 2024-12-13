@@ -19,11 +19,12 @@ jobs:
         edx-platform:
           - branch: opencraft-release/redwood.1
             remote: open-craft
-            release: redwood
+            python_version: 3.11
+          - branch: open-release/sumac.master
+            remote: openedx
             python_version: 3.11
           - branch: master
             remote: openedx
-            release: master
             python_version: 3.11
     env:
       EDX_PLATFORM_PATH: ./edx/app/edxapp/edx-platform
@@ -91,7 +92,7 @@ jobs:
         run: make test_integration
 
       - name: Run coverage
-        if: matrix.edx-platform.release == 'redwood'
+        if: matrix.edx-platform.branch == 'opencraft-release/redwood.1'
         uses: codecov/codecov-action@v5
         with:
           working-directory: ${{ env.PLUGIN_PATH }}
