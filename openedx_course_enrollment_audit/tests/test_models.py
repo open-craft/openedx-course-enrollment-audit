@@ -1,6 +1,6 @@
 """Tests for the CourseEnrollmentAudit model."""
 
-from typing import Callable
+from collections.abc import Callable
 
 import factory
 import pytest

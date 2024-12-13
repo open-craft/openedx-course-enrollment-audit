@@ -30,7 +30,7 @@ omit = ['*/migrations/*', '*/tests/*']
 [tool.ruff]
 line-length = 120
 exclude = ['migrations', 'manage.py', 'setup.py']
-target-version = 'py38'
+target-version = 'py311'
 
 [tool.ruff.lint]
 select = [
@@ -96,8 +96,6 @@ select = [
 ignore = [
     'ANN002', # missing-type-args
     'ANN003', # missing-type-kwargs
-    'ANN101', # missing-type-self
-    'ANN102', # missing-type-cls
     'ANN204', # missing-return-type-special-method
     'D203',   # one-blank-line-before-class
     'D212',   # multi-line-summary-first-line (incompatible with D213)
@@ -109,7 +107,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-'tests*' = [
+'*/tests/*' = [
     'S101',   # assert
     'INP001', # implicit-namespace-package
     'SLF001', # private-member-access
@@ -129,7 +127,7 @@ allow-magic-value-types = ['int', 'str']
 
 [tool.black]
 line-length = 120
-target-version = ['py38']
+target-version = ['py311']
 exclude = '''
 /(
     \.git
