@@ -14,7 +14,6 @@ addopts = [
     "--pyargs", "openedx_course_enrollment_audit",
     "--cov", "openedx_course_enrollment_audit",
     "--cov-report", "term-missing",
-    "--cov-report", "xml:coverage.xml",
     "--nomigrations",
     "--reuse-db",
     "--durations=20",
@@ -124,21 +123,3 @@ convention = "google"
 
 [tool.ruff.lint.pylint]
 allow-magic-value-types = ['int', 'str']
-
-[tool.black]
-line-length = 120
-target-version = ['py311']
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-  | migrations
-)/
-'''
