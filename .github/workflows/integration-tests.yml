@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   tests:
-    name: ${{ matrix.edx-platform.branch }} (${{ matrix.edx-platform.release }})
+    name: ${{ matrix.edx-platform.branch }}
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
