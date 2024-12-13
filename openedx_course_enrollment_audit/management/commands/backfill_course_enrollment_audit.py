@@ -6,7 +6,7 @@ for all existing ManualEnrollmentAudit entries. It should be run when deploying 
 the CourseEnrollmentAudit model to ensure historical data is captured.
 
 Usage:
-    python manage.py backfill_course_enrollment_audit
+    ./manage.py lms backfill_course_enrollment_audit
 
 Note:
     - The command iterates over all ManualEnrollmentAudit records and processes them one by one.

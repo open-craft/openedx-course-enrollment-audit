@@ -130,7 +130,7 @@ To backfill existing data from ``ManualEnrollmentAudit`` into ``CourseEnrollment
 
 .. code-block:: bash
 
-  python manage.py lms backfill_course_enrollment_audit
+  ./manage.py lms backfill_course_enrollment_audit
 
 This command ensures that all existing manual enrollments are tracked and audited according to the plugin's logic.
 
