@@ -27,7 +27,7 @@ One-Time Setup
   cd openedx-course-enrollment-audit
 
   # Set up a virtualenv using virtualenvwrapper with the same name as the repo and activate it
-  mkvirtualenv -p python3.8 openedx-course-enrollment-audit
+  mkvirtualenv -p python3.11 openedx-course-enrollment-audit
 
 Tutor Installation
 ------------------

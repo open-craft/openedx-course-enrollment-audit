@@ -17,10 +17,6 @@ jobs:
       fail-fast: false
       matrix:
         edx-platform:
-          - branch: opencraft-release/palm.1
-            remote: open-craft
-            release: palm
-            python_version: 3.8
           - branch: opencraft-release/redwood.1
             remote: open-craft
             release: redwood
@@ -84,9 +80,9 @@ jobs:
         working-directory: ${{ env.PLUGIN_PATH }}
         run: pip install -e .
 
-#      - name: Check if migrations are up-to-date
-#        working-directory: ${{ env.PLUGIN_PATH }}
-#        run: make test_migrations
+      - name: Check if migrations are up-to-date
+        working-directory: ${{ env.PLUGIN_PATH }}
+        run: make test_migrations
 
       - name: Run plugin integration tests
         working-directory: ${{ env.PLUGIN_PATH }}
