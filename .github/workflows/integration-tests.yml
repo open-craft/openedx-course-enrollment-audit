@@ -1,0 +1,100 @@
+name: Integration Tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: ${{ matrix.edx-platform.branch }}
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        edx-platform:
+          - branch: opencraft-release/redwood.1
+            remote: open-craft
+            python_version: 3.11
+          - branch: open-release/sumac.master
+            remote: openedx
+            python_version: 3.11
+          - branch: master
+            remote: openedx
+            python_version: 3.11
+    env:
+      EDX_PLATFORM_PATH: ./edx/app/edxapp/edx-platform
+      PLUGIN_PATH: ./edx/src/openedx-course-enrollment-audit
+
+    steps:
+      - name: Create directory structure
+        run: mkdir -p ${{ env.EDX_PLATFORM_PATH }} ${{ env.PLUGIN_PATH }}
+
+      - name: Checkout edx-platform repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.edx-platform.remote }}/edx-platform
+          ref: ${{ matrix.edx-platform.branch }}
+          path: ${{ env.EDX_PLATFORM_PATH }}
+
+      - name: install edx-platform required packages
+        run: sudo apt-get update && sudo apt-get install libxmlsec1-dev lynx
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.11.0
+        with:
+          mongodb-version: 7.0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.edx-platform.python_version }}
+
+      - name: Get pip cache dir
+        id: pip-cache-dir
+        run: echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache pip dependencies
+        id: cache-dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pip-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements/edx/testing.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: Install edx-platform required Python dependencies
+        env:
+          PIP_SRC: ${{ runner.temp }}
+        working-directory: ${{ env.EDX_PLATFORM_PATH }}
+        run: make test-requirements
+
+      - name: Checkout plugin repo
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.PLUGIN_PATH }}
+
+      - name: Install plugin
+        working-directory: ${{ env.PLUGIN_PATH }}
+        run: pip install -e .
+
+      # FIXME: The test config fails with: `settings.DATABASES is improperly configured. Please supply the NAME value.`
+      #        The devstack config fails with `Set the LMS_CFG env variable`.
+      # - name: Check if migrations are up-to-date
+      #   working-directory: ${{ env.PLUGIN_PATH }}
+      #   run: make test_migrations
+
+      - name: Run plugin integration tests
+        working-directory: ${{ env.PLUGIN_PATH }}
+        run: make test_integration
+
+      - name: Run coverage
+        if: matrix.edx-platform.branch == 'opencraft-release/redwood.1'
+        uses: codecov/codecov-action@v5
+        with:
+          working-directory: ${{ env.PLUGIN_PATH }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
