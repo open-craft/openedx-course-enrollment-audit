@@ -21,7 +21,7 @@ chardet==5.2.0
     #   -r requirements/ci.txt
     #   diff-cover
     #   tox
-click==8.1.7
+click==8.1.8
     # via
     #   -r requirements/pip-tools.txt
     #   -r requirements/quality.txt
@@ -33,11 +33,11 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.6.9
+coverage[toml]==7.6.10
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
-diff-cover==9.2.0
+diff-cover==9.2.1
     # via -r requirements/dev.in
 distlib==0.3.9
     # via
@@ -56,7 +56,7 @@ iniconfig==2.0.0
     # via
     #   -r requirements/quality.txt
     #   pytest
-jinja2==3.1.4
+jinja2==3.1.5
     # via
     #   -r requirements/quality.txt
     #   code-annotations
@@ -120,7 +120,7 @@ pyyaml==6.0.2
     # via
     #   -r requirements/quality.txt
     #   code-annotations
-ruff==0.8.3
+ruff==0.8.4
     # via -r requirements/quality.txt
 sqlparse==0.5.3
     # via
