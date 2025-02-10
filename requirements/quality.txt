@@ -12,13 +12,13 @@ click==8.1.8
     # via
     #   -r requirements/test.txt
     #   code-annotations
-code-annotations==2.1.0
+code-annotations==2.2.0
     # via -r requirements/test.txt
-coverage[toml]==7.6.10
+coverage[toml]==7.6.11
     # via
     #   -r requirements/test.txt
     #   pytest-cov
-django==4.2.17
+django==4.2.19
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
@@ -38,7 +38,7 @@ packaging==24.2
     # via
     #   -r requirements/test.txt
     #   pytest
-pbr==6.1.0
+pbr==6.1.1
     # via
     #   -r requirements/test.txt
     #   stevedore
@@ -63,7 +63,7 @@ pyyaml==6.0.2
     # via
     #   -r requirements/test.txt
     #   code-annotations
-ruff==0.8.4
+ruff==0.9.5
     # via -r requirements/quality.in
 sqlparse==0.5.3
     # via
@@ -77,3 +77,6 @@ text-unidecode==1.3
     # via
     #   -r requirements/test.txt
     #   python-slugify
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
