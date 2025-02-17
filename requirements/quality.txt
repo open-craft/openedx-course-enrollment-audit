@@ -14,7 +14,7 @@ click==8.1.8
     #   code-annotations
 code-annotations==2.2.0
     # via -r requirements/test.txt
-coverage[toml]==7.6.11
+coverage[toml]==7.6.12
     # via
     #   -r requirements/test.txt
     #   pytest-cov
@@ -53,7 +53,7 @@ pytest==8.3.4
     #   pytest-django
 pytest-cov==6.0.0
     # via -r requirements/test.txt
-pytest-django==4.9.0
+pytest-django==4.10.0
     # via -r requirements/test.txt
 python-slugify==8.0.4
     # via
@@ -63,7 +63,7 @@ pyyaml==6.0.2
     # via
     #   -r requirements/test.txt
     #   code-annotations
-ruff==0.9.5
+ruff==0.9.6
     # via -r requirements/quality.in
 sqlparse==0.5.3
     # via
