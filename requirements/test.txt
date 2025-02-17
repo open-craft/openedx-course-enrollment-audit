@@ -12,7 +12,7 @@ click==8.1.8
     # via code-annotations
 code-annotations==2.2.0
     # via -r requirements/test.in
-coverage[toml]==7.6.11
+coverage[toml]==7.6.12
     # via pytest-cov
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
@@ -35,7 +35,7 @@ pytest==8.3.4
     #   pytest-django
 pytest-cov==6.0.0
     # via -r requirements/test.in
-pytest-django==4.9.0
+pytest-django==4.10.0
     # via -r requirements/test.in
 python-slugify==8.0.4
     # via code-annotations
