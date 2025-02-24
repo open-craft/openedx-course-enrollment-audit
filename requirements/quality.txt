@@ -63,13 +63,13 @@ pyyaml==6.0.2
     # via
     #   -r requirements/test.txt
     #   code-annotations
-ruff==0.9.6
+ruff==0.9.7
     # via -r requirements/quality.in
 sqlparse==0.5.3
     # via
     #   -r requirements/test.txt
     #   django
-stevedore==5.4.0
+stevedore==5.4.1
     # via
     #   -r requirements/test.txt
     #   code-annotations

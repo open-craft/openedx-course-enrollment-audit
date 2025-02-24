@@ -12,7 +12,7 @@ build==1.2.2.post1
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
-cachetools==5.5.1
+cachetools==5.5.2
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -37,7 +37,7 @@ coverage[toml]==7.6.12
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
-diff-cover==9.2.2
+diff-cover==9.2.3
     # via -r requirements/dev.in
 distlib==0.3.9
     # via
@@ -120,13 +120,13 @@ pyyaml==6.0.2
     # via
     #   -r requirements/quality.txt
     #   code-annotations
-ruff==0.9.6
+ruff==0.9.7
     # via -r requirements/quality.txt
 sqlparse==0.5.3
     # via
     #   -r requirements/quality.txt
     #   django
-stevedore==5.4.0
+stevedore==5.4.1
     # via
     #   -r requirements/quality.txt
     #   code-annotations
