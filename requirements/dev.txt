@@ -103,7 +103,7 @@ pyproject-hooks==1.2.0
     #   -r requirements/pip-tools.txt
     #   build
     #   pip-tools
-pytest==8.3.4
+pytest==8.3.5
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
@@ -120,7 +120,7 @@ pyyaml==6.0.2
     # via
     #   -r requirements/quality.txt
     #   code-annotations
-ruff==0.9.7
+ruff==0.9.9
     # via -r requirements/quality.txt
 sqlparse==0.5.3
     # via
