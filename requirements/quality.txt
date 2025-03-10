@@ -18,7 +18,7 @@ coverage[toml]==7.6.12
     # via
     #   -r requirements/test.txt
     #   pytest-cov
-django==4.2.19
+django==4.2.20
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
@@ -26,7 +26,7 @@ iniconfig==2.0.0
     # via
     #   -r requirements/test.txt
     #   pytest
-jinja2==3.1.5
+jinja2==3.1.6
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -63,7 +63,7 @@ pyyaml==6.0.2
     # via
     #   -r requirements/test.txt
     #   code-annotations
-ruff==0.9.9
+ruff==0.9.10
     # via -r requirements/quality.in
 sqlparse==0.5.3
     # via
