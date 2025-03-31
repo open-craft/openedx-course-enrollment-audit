@@ -14,7 +14,7 @@ click==8.1.8
     #   code-annotations
 code-annotations==2.2.0
     # via -r requirements/test.txt
-coverage[toml]==7.7.1
+coverage[toml]==7.8.0
     # via
     #   -r requirements/test.txt
     #   pytest-cov
