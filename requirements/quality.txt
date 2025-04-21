@@ -34,7 +34,7 @@ markupsafe==3.0.2
     # via
     #   -r requirements/test.txt
     #   jinja2
-packaging==24.2
+packaging==25.0
     # via
     #   -r requirements/test.txt
     #   pytest
@@ -63,7 +63,7 @@ pyyaml==6.0.2
     # via
     #   -r requirements/test.txt
     #   code-annotations
-ruff==0.11.5
+ruff==0.11.6
     # via -r requirements/quality.in
 sqlparse==0.5.3
     # via
