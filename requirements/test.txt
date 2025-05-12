@@ -8,7 +8,7 @@ asgiref==3.8.1
     # via
     #   -r requirements/base.txt
     #   django
-click==8.1.8
+click==8.2.0
     # via code-annotations
 code-annotations==2.3.0
     # via -r requirements/test.in
