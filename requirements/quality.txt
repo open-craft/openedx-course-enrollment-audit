@@ -42,7 +42,7 @@ pbr==6.1.1
     # via
     #   -r requirements/test.txt
     #   stevedore
-pluggy==1.5.0
+pluggy==1.6.0
     # via
     #   -r requirements/test.txt
     #   pytest
@@ -63,7 +63,7 @@ pyyaml==6.0.2
     # via
     #   -r requirements/test.txt
     #   code-annotations
-ruff==0.11.9
+ruff==0.11.10
     # via -r requirements/quality.in
 sqlparse==0.5.3
     # via
