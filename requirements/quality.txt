@@ -47,11 +47,11 @@ pluggy==1.6.0
     #   -r requirements/test.txt
     #   pytest
     #   pytest-cov
-pygments==2.19.1
+pygments==2.19.2
     # via
     #   -r requirements/test.txt
     #   pytest
-pytest==8.4.0
+pytest==8.4.1
     # via
     #   -r requirements/test.txt
     #   pytest-cov
@@ -68,7 +68,7 @@ pyyaml==6.0.2
     # via
     #   -r requirements/test.txt
     #   code-annotations
-ruff==0.11.13
+ruff==0.12.1
     # via -r requirements/quality.in
 sqlparse==0.5.3
     # via
