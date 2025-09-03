@@ -20,4 +20,4 @@ class OpenedxCourseEnrollmentAuditConfig(AppConfig):
 
     def ready(self):
         """Import signals so they are registered."""
-        from openedx_course_enrollment_audit import signals  # pylint: disable=unused-import  # noqa: F401
+        from openedx_course_enrollment_audit import signals  # noqa: F401, PLC0415
