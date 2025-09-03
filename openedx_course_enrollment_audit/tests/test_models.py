@@ -1,11 +1,14 @@
 """Tests for the CourseEnrollmentAudit model."""
 
+import json
 from collections.abc import Callable
 
 import factory
 import pytest
 from common.djangoapps.student.models import (
+    ALLOWEDTOENROLL_TO_ENROLLED,
     ENROLLED_TO_UNENROLLED,
+    UNENROLLED_TO_ALLOWEDTOENROLL,
     UNENROLLED_TO_ENROLLED,
     CourseEnrollment,
     ManualEnrollmentAudit,
@@ -135,3 +138,50 @@ def test_create_without_enrollment(user):
     assert course_enrollment_audit.user_id is None
     assert course_enrollment_audit.course_id is None
     assert course_enrollment_audit.enrolled_email == user.email
+
+
+@pytest.mark.django_db
+def test_allowed_to_enroll_to_enrolled_preserves_existing_values(user, enrollment):
+    """Test that `ALLOWEDTOENROLL_TO_ENROLLED` transition preserves existing metadata."""
+    reason = {"org": "edX", "course_id": str(enrollment.course_id), "role": "learner", "reason": "manual"}
+    initial_audit = ManualEnrollmentAudit.objects.create(
+        enrollment=None,
+        enrolled_email="test@example.com",
+        enrolled_by=user,
+        state_transition=UNENROLLED_TO_ALLOWEDTOENROLL,
+        role="instructor",
+        reason=json.dumps(reason),
+    )
+
+    course_audit = CourseEnrollmentAudit.objects.first()
+    assert course_audit.enrollment == initial_audit.enrollment
+    assert course_audit.enrolled_by == initial_audit.enrolled_by
+    assert course_audit.time_stamp == initial_audit.time_stamp
+
+    assert course_audit.org == reason["org"]
+    assert course_audit.course_id == reason["course_id"]
+    assert course_audit.role == reason["role"]
+    assert course_audit.reason == reason["reason"]
+
+    reason2 = '{"org": "anotherOrg", "course_id": "test_course2", "role": "staff", "reason": "automatic"}'
+    auto_enrollment_audit = ManualEnrollmentAudit.objects.create(
+        enrollment=enrollment,
+        enrolled_email="test@example.com",
+        enrolled_by=UserFactory.create(),
+        state_transition=ALLOWEDTOENROLL_TO_ENROLLED,
+        role="student",
+        reason=reason2,
+    )
+
+    assert CourseEnrollmentAudit.objects.count() == 1
+
+    course_audit.refresh_from_db()
+    assert course_audit.enrolled_by == initial_audit.enrolled_by
+    assert course_audit.org == reason["org"]
+    assert course_audit.course_id == reason["course_id"]
+    assert course_audit.role == reason["role"]
+    assert course_audit.reason == reason["reason"]
+
+    assert course_audit.enrollment == auto_enrollment_audit.enrollment
+    assert course_audit.state_transition == auto_enrollment_audit.state_transition
+    assert course_audit.time_stamp == auto_enrollment_audit.time_stamp

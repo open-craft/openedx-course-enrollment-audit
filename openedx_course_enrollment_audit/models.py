@@ -1,10 +1,13 @@
 """This module contains the model, which is used to store parsed and summarized manual enrollment audit data."""
 
 import json
+import logging
 from json import JSONDecodeError
 
 from django.contrib.auth.models import User
 from django.db import models
+
+logger = logging.getLogger(__name__)
 
 
 class CourseEnrollmentAudit(models.Model):  # noqa: DJ008
@@ -40,32 +43,42 @@ class CourseEnrollmentAudit(models.Model):  # noqa: DJ008
     @classmethod
     def create_from_manual_enrollment(cls, manual_enrollment):  # noqa: ANN001
         """Create or update a CourseEnrollmentAudit instance based on the provided ManualEnrollmentAudit instance."""
-        org = None
-        course_id = str(manual_enrollment.enrollment.course_id) if manual_enrollment.enrollment else None
-        role = manual_enrollment.role
+        audit_data = {
+            "manual_enrollment_audit": manual_enrollment,
+            "enrollment": manual_enrollment.enrollment,
+            "enrolled_by": manual_enrollment.enrolled_by,
+            "state_transition": manual_enrollment.state_transition,
+            "role": manual_enrollment.role,
+            "reason": manual_enrollment.reason,
+            "user_id": manual_enrollment.enrollment.user_id if manual_enrollment.enrollment else None,
+            "time_stamp": manual_enrollment.time_stamp,
+        }
 
-        try:
-            parsed_data = json.loads(manual_enrollment.reason)
-            org = parsed_data.get("org")
-            course_id = parsed_data.get("course_id", course_id)
-            role = parsed_data.get("role", role)
-            reason = parsed_data.get("reason")
-        except (JSONDecodeError, TypeError):
-            # If the reason field is not a valid JSON, store it as is.
-            reason = manual_enrollment.reason
+        course_id = str(manual_enrollment.enrollment.course_id) if manual_enrollment.enrollment else None
+
+        # ManualEnrollmentAudit model does not have the course_id field, so the "allowed to enroll to enrolled"
+        # transition uses the data from the most recent ManualEnrollmentAudit record.
+        # It causes inconsistencies when a user is pre-enrolled in more than one course.
+        # Ref:
+        # https://github.com/openedx/edx-platform/blob/bf36c4/common/djangoapps/student/models/course_enrollment.py#L1484
+        # https://github.com/openedx/edx-platform/blob/7245bdc/common/djangoapps/student/models/user.py#L777-L780
+        if manual_enrollment.state_transition == "from allowed to enroll to enrolled":
+            del audit_data["enrolled_by"]
+            del audit_data["role"]
+            del audit_data["reason"]
+        else:
+            try:
+                parsed_data = json.loads(manual_enrollment.reason)
+                course_id = parsed_data.get("course_id", course_id)
+                audit_data["org"] = parsed_data.get("org")
+                audit_data["role"] = parsed_data.get("role") or audit_data["role"]
+                audit_data["reason"] = parsed_data.get("reason") or audit_data["reason"]
+            except (JSONDecodeError, TypeError):
+                # If the reason field is not a valid JSON, store it as is.
+                pass
 
         cls.objects.update_or_create(
             enrolled_email=manual_enrollment.enrolled_email,
             course_id=course_id,
-            defaults={
-                "manual_enrollment_audit": manual_enrollment,
-                "enrollment": manual_enrollment.enrollment,
-                "enrolled_by": manual_enrollment.enrolled_by,
-                "state_transition": manual_enrollment.state_transition,
-                "org": org,
-                "role": role,
-                "reason": reason,
-                "user_id": manual_enrollment.enrollment.user_id if manual_enrollment.enrollment else None,
-                "time_stamp": manual_enrollment.time_stamp,
-            },
+            defaults=audit_data,
         )
