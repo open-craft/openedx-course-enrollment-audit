@@ -56,7 +56,7 @@ jobs:
           mongodb-version: 7.0
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.edx-platform.python_version }}
 
