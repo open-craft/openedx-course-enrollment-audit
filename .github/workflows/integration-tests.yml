@@ -41,7 +41,7 @@ jobs:
         run: mkdir -p ${{ env.EDX_PLATFORM_PATH }} ${{ env.PLUGIN_PATH }}
 
       - name: Checkout edx-platform repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ${{ matrix.edx-platform.remote }}/edx-platform
           ref: ${{ matrix.edx-platform.branch }}
@@ -79,7 +79,7 @@ jobs:
         run: make test-requirements
 
       - name: Checkout plugin repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.PLUGIN_PATH }}
 
