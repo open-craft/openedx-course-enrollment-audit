@@ -1,7 +1,5 @@
 [tool.pytest.ini_options]
 filterwarnings = [
-    "ignore::django.utils.deprecation.RemovedInDjango50Warning",
-    "ignore::django.utils.deprecation.RemovedInDjango51Warning",
     "ignore:pkg_resources is deprecated as an API:DeprecationWarning",
     "ignore:'cgi':DeprecationWarning",
     "ignore:'imghdr':DeprecationWarning",
