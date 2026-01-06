@@ -26,6 +26,9 @@ jobs:
           - branch: release/teak
             remote: openedx
             python_version: 3.11
+          - branch: release/ulmo
+            remote: openedx
+            python_version: 3.11
           - branch: master
             remote: openedx
             python_version: 3.11
