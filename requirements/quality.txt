@@ -64,7 +64,7 @@ pyyaml==6.0.3
     # via
     #   -r requirements/test.txt
     #   code-annotations
-ruff==0.14.11
+ruff==0.14.13
     # via -r requirements/quality.in
 sqlparse==0.5.5
     # via
