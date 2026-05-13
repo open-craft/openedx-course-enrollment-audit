@@ -99,7 +99,7 @@ jobs:
 
       - name: Run coverage
         if: matrix.edx-platform.branch == 'opencraft-release/redwood.1'
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           working-directory: ${{ env.PLUGIN_PATH }}
           token: ${{ secrets.CODECOV_TOKEN }}
