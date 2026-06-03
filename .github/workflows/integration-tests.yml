@@ -31,7 +31,7 @@ jobs:
             python_version: 3.11
           - branch: master
             remote: openedx
-            python_version: 3.11
+            python_version: 3.12
     env:
       EDX_PLATFORM_PATH: ./edx/app/edxapp/edx-platform
       PLUGIN_PATH: ./edx/src/openedx-course-enrollment-audit
