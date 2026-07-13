@@ -14,11 +14,11 @@ click==8.4.2
     #   code-annotations
 code-annotations==3.0.0
     # via -r requirements/test.txt
-coverage[toml]==7.15.0
+coverage[toml]==7.15.1
     # via
     #   -r requirements/test.txt
     #   pytest-cov
-django==5.2.15
+django==5.2.16
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
@@ -64,7 +64,7 @@ pyyaml==6.0.3
     # via
     #   -r requirements/test.txt
     #   code-annotations
-ruff==0.15.20
+ruff==0.15.21
     # via -r requirements/quality.in
 sqlparse==0.5.5
     # via
