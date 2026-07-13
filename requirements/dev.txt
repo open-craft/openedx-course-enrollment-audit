@@ -8,7 +8,7 @@ asgiref==3.11.1
     # via
     #   -r requirements/quality.txt
     #   django
-build==1.5.0
+build==1.5.1
     # via
     #   -r requirements/pip-tools.txt
     #   pip-tools
@@ -30,7 +30,7 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.15.0
+coverage[toml]==7.15.1
     # via
     #   -r requirements/quality.txt
     #   pytest-cov
@@ -40,11 +40,11 @@ distlib==0.4.3
     # via
     #   -r requirements/ci.txt
     #   virtualenv
-django==5.2.15
+django==5.2.16
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/quality.txt
-filelock==3.29.5
+filelock==3.29.7
     # via
     #   -r requirements/ci.txt
     #   python-discovery
@@ -112,7 +112,7 @@ pytest-cov==7.1.0
     # via -r requirements/quality.txt
 pytest-django==4.12.0
     # via -r requirements/quality.txt
-python-discovery==1.4.3
+python-discovery==1.4.4
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -125,7 +125,7 @@ pyyaml==6.0.3
     # via
     #   -r requirements/quality.txt
     #   code-annotations
-ruff==0.15.20
+ruff==0.15.21
     # via -r requirements/quality.txt
 sqlparse==0.5.5
     # via
@@ -143,9 +143,9 @@ tomli-w==1.2.0
     # via
     #   -r requirements/ci.txt
     #   tox
-tox==4.56.1
+tox==4.56.4
     # via -r requirements/ci.txt
-virtualenv==21.5.1
+virtualenv==21.6.1
     # via
     #   -r requirements/ci.txt
     #   tox
